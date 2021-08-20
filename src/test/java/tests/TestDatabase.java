@@ -33,7 +33,7 @@ public class TestDatabase extends TestsSetup {
     @DisplayName("Insert data in table")
     public void testInsertRequest() {
 
-        String query = "INSERT INTO humans (ID, FIRST_NAME, LAST_NAME, TOWN) VALUES (1, 'David', 'Brown', 'New York'))";
+        String query = "INSERT INTO humans (ID, FIRST_NAME, LAST_NAME, TOWN) VALUES (1, 'David', 'Brown', 'New York')";
         JDBCConnection.insertIntoTable(query);
         String selectQuery = "SELECT * FROM humans";
         ResultSet rs = JDBCConnection.selectFromTable(selectQuery);
