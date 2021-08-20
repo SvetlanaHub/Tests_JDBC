@@ -20,7 +20,6 @@ public class JDBCConnection {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            // открытие коннекта к MySQL server
             con = DriverManager.getConnection(url, user, password);
             Log.info("Connection to DB successful!");
         } catch (ClassNotFoundException e) {
@@ -89,9 +88,7 @@ public class JDBCConnection {
             stmt = connectToDB().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             Log.info("Send request to DB: " + query);
             rs = stmt.executeQuery(query);
-            //перемещение курсора к следующемей строке значений, удовлетворяющих запросу
             rs.next();
-            //логирование результатов запроса
             addSQLRequestResultsToLog(query);
         } catch (SQLException se) {
             Log.error(se.getMessage());
@@ -99,8 +96,6 @@ public class JDBCConnection {
         return rs;
     }
 
-    //метод необязательный, приведен в качестве примера
-    //логирование результатов запроса
     private static void addSQLRequestResultsToLog(String query) {
         StringBuilder builder = new StringBuilder();
         DSL.using(connectToDB()).fetchStream(query)
