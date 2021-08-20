@@ -2,13 +2,12 @@ package databaseConnect;
 
 import org.jooq.impl.DSL;
 import utils.Log;
-
 import java.sql.*;
 
 public class JDBCConnection {
     private static final String host = "localhost";
     private static final String DBName = "sakila";
-    private static final String url = "jdbc:mysql://" + host + ":3306/" + DBName;
+    private static final String url = "jdbc:mysql://" + host + ":3306/" + DBName + "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
     private static final String user = "root";
     private static final String password = "myroot";
 

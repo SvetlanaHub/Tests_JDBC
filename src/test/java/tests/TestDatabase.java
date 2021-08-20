@@ -18,7 +18,7 @@ public class TestDatabase extends TestsSetup {
     @Order(1)
     @DisplayName("Checking the creation of the students table in the sakila DB")
     public void testCreateTableStudents() {
-        String query = "CREATE TABLE students ("
+        String query = "CREATE TABLE humans ("
                 + "ID int(6) NOT NULL,"
                 + "FIRST_NAME VARCHAR(45) NOT NULL,"
                 + "LAST_NAME VARCHAR(45) NOT NULL,"
@@ -29,50 +29,51 @@ public class TestDatabase extends TestsSetup {
 
     @Test
     @Order(2)
-    @DisplayName("insert data in table")
+    @DisplayName("Insert data in table")
     public void testInsertRequest() {
-        String query = "INSERT INTO students (ID, FIRST_NAME, LAST_NAME, TOWN) VALUES (1, 'David', 'Brown', 'New York')";
+        String query = "INSERT INTO humans (ID, FIRST_NAME, LAST_NAME, TOWN) VALUES (1, 'David', 'Brown', 'New York'))";
         JDBCConnection.insertIntoTable(query);
-        String selectQuery = "SELECT * FROM students";
+        String selectQuery = "SELECT * FROM humans";
         ResultSet rs = JDBCConnection.selectFromTable(selectQuery);
         assertAll("Should return inserted data",
                 () -> assertEquals("1", rs.getString("ID")),
                 () -> assertEquals("David", rs.getString("FIRST_NAME")),
                 () -> assertEquals("Brown", rs.getString("LAST_NAME")),
                 () -> assertEquals("New York", rs.getString("TOWN")));
+
     }
 
     @Test
     @Order(3)
     @DisplayName("Update data in a table")
-    public void testUpdateRequest() throws SQLException {
-        String query = "UPDATE students SET LAST_NAME  = 'HORST' WHERE ID=1";
+        public void testUpdateRequest() throws SQLException {
+        String query = "UPDATE humans SET TOWN = 'PARIS' WHERE ID=1";
         JDBCConnection.updateInTable(query);
-        String selectQuery = "SELECT LAST_NAME FROM students WHERE ID=1";
+        String selectQuery = "SELECT TOWN FROM humans WHERE ID=1";
         ResultSet rs = JDBCConnection.selectFromTable(selectQuery);
-        String expectedTown = "HORST";
-        String actualTown = rs.getString("LAST_NAME");
+        String expectedTown = "PARIS";
+        String actualTown = rs.getString("TOWN");
         assertEquals(expectedTown, actualTown, "Actual town is '" + actualTown + "'. Expected - '" + expectedTown + "'.");
-    }
+}
 
     @Test
     @Order(4)
     @DisplayName("Sending a simple SELECT query. Checking the address")
     public void testSelectRequest_checkAddress() throws SQLException {
-        String query = "SELECT * FROM address WHERE address_id=1";
+        String query = "SELECT * FROM country WHERE country_id=6";
         ResultSet rs = JDBCConnection.selectFromTable(query);
-        String expectedAddress = "47 MySakila Drive";
-        String actualAddress = rs.getString("address");
-        assertEquals(expectedAddress, actualAddress, "Actual address is '" + actualAddress + "'. Expected - '" + expectedAddress + "'.");
+        String expectedCountry = "Argentina";
+        String actualCountry = rs.getString("country");
+        assertEquals(expectedCountry, actualCountry, "Actual address is '" + actualCountry + "'. Expected - '" + expectedCountry + "'.");
     }
 
     @Test
     @Order(5)
-    @DisplayName("Отправка SELECT JOIN запроса. Проверка принадлежности города стране")
+    @DisplayName("Sending a SELECT JOIN query. Checking the belonging of the city to the country")
     public void testSelectWithJoinRequest_CheckCityAndCountry() throws SQLException {
-        String query = "SELECT ct.city, cntr.country FROM city ct LEFT JOIN country cntr ON ct.country_id=cntr.country_id WHERE city='Bratislava'";
+        String query = "SELECT ct.city, cntr.country FROM city ct LEFT JOIN country cntr ON ct.country_id=cntr.country_id WHERE city='Dallas'";
         ResultSet rs = JDBCConnection.selectFromTable(query);
-        String expectedCountry = "Slovakia";
+        String expectedCountry = "United States";
         String actualCountry = rs.getString("country");
         assertEquals(expectedCountry, actualCountry, "Actual country is '" + actualCountry + "'. Expected - '" + expectedCountry + "'.");
     }
@@ -93,7 +94,7 @@ public class TestDatabase extends TestsSetup {
     @Order(7)
     @DisplayName("Deleting data from the table")
     public void testDeleteRequest() {
-        String query = "DELETE FROM students WHERE ID=1";
+        String query = "DELETE FROM humans WHERE ID=1";
         JDBCConnection.deleteFromTable(query);
     }
 
@@ -101,8 +102,7 @@ public class TestDatabase extends TestsSetup {
     @Order(8)
     @DisplayName("Deleting the Table from the Database")
     public void test_dropTable() {
-        JDBCConnection.dropTable("students");
+        JDBCConnection.dropTable("humans");
     }
-
 
 }
