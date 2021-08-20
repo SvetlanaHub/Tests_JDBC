@@ -62,7 +62,7 @@ public class TestDatabase extends TestsSetup {
 
     @Test
     @Order(4)
-    @DisplayName("Sending a simple SELECT query. Checking the address")
+    @DisplayName("Sending a simple SELECT query. Checking the country")
     public void testSelectRequest_checkAddress() throws SQLException {
 
         String query = "SELECT * FROM country WHERE country_id=6";
